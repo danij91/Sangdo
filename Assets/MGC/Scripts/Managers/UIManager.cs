@@ -10,6 +10,7 @@ public class UIManager : SingletonMono<UIManager>
     public Transform overlayRoot;
 
     private UIBase currentScreen;
+    private UIBase currentOverlay;
     private Stack<UIBase> popupStack = new Stack<UIBase>();
 
     protected override void OnInitialize()
@@ -69,8 +70,39 @@ public class UIManager : SingletonMono<UIManager>
     
     public T OpenOverlay<T>() where T : UIBase
     {
+        if (currentOverlay is T overlay)
+        {
+            return overlay;
+        }
+        
+        if (currentOverlay != null)
+        {
+            Destroy(currentOverlay.gameObject);
+            currentOverlay = null;
+        }
+
         var prefab = ResourceManager.Instance.LoadUI<T>("Overlay");
-        return Instantiate(prefab, overlayRoot).GetComponent<T>();
+        var ui = Instantiate(prefab, overlayRoot).GetComponent<T>();
+        currentOverlay = ui;
+        return ui;
+    }
+
+    public void CloseScreen()
+    {
+        if (currentScreen != null)
+        {
+            Destroy(currentScreen.gameObject);
+            currentScreen = null;
+        }
+    }
+
+    public void CloseOverlay()
+    {
+        if (currentOverlay != null)
+        {
+            Destroy(currentOverlay.gameObject);
+            currentOverlay = null;
+        }
     }
 
     public void ClosePopup()

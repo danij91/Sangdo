@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5fc3c5ceb0c4db6a162242b3b1d5dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingText: {fileID: 4716225528718233518}
+  progressText: {fileID: 4716225528718233518}
 --- !u!1001 &4626582334327170445
 PrefabInstance:
   m_ObjectHideFlags: 0

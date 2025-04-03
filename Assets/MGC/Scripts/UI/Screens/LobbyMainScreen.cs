@@ -1,31 +1,34 @@
-﻿using Enums;
+﻿// ✅ LobbyMainScreen.cs
+
+using Enums;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LobbyMainScreen : ScreenBase
 {
-    [SerializeField] private Button startButton;
+    [SerializeField] private Button enterWorldButton;
     [SerializeField] private Button settingsButton;
 
     private void Awake()
     {
-        if (startButton != null)
-        {
-            startButton.onClick.AddListener(() =>
-            {
-                Debug.Log("[LobbyMainScreen] Start button clicked.");
-                // 예: 월드 씬으로 전환
-                SceneManager.Instance.LoadScene(SceneType.World);
-            });
-        }
+        enterWorldButton.onClick.AddListener(OnEnterWorldPressed);
+        settingsButton.onClick.AddListener(OnSettingsPressed);
+    }
 
-        if (settingsButton != null)
-        {
-            settingsButton.onClick.AddListener(() =>
-            {
-                Debug.Log("[LobbyMainScreen] Settings button clicked.");
-                UIManager.Instance.OpenPopup<LobbySettingsPopup>();
-            });
-        }
+    private void OnDestroy()
+    {
+        enterWorldButton.onClick.RemoveAllListeners();
+        settingsButton.onClick.RemoveAllListeners();
+    }
+
+    private void OnEnterWorldPressed()
+    {
+        SceneManager.Instance.LoadScene(SceneType.World);
+    }
+
+    private void OnSettingsPressed()
+    {
+        LobbySceneController controller = FindFirstObjectByType<LobbySceneController>();
+        controller.OpenSettings();
     }
 }

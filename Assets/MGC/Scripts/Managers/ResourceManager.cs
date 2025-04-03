@@ -61,9 +61,9 @@ public class ResourceManager : SingletonMono<ResourceManager>
         return asset;
     }
 
-    public T LoadPrefab<T>(string prefabName) where T : Object
+    public T LoadPrefab<T>() where T : Object
     {
-        string path = $"Prefabs/Gameplay/{prefabName}";
+        string path = $"Prefabs/{typeof(T).Name}";
 
         T asset = Resources.Load<T>(path);
         if (asset == null)
