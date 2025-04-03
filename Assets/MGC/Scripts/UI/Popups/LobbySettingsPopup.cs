@@ -1,19 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
-public class LobbySettingsPopup : UIBase
+public class LobbySettingsPopup : PopupBase
 {
-    [SerializeField] private Button closeButton;
-
-    private void Awake()
+    public void OnCloseButtonPressed()
     {
-        if (closeButton != null)
-        {
-            closeButton.onClick.AddListener(() =>
-            {
-                Debug.Log("[LobbySettingsPopup] Close button clicked.");
-                UIManager.Instance.ClosePopup();
-            });
-        }
+        LobbySceneController controller = FindObjectOfType<LobbySceneController>();
+        controller.ReturnToMain();
     }
 }

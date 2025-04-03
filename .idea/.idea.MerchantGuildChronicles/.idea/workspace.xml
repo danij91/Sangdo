@@ -4,7 +4,93 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5622ceac-c2bd-4a11-9feb-d6977acfe1ee" name="Changes" comment="" />
+    <list default="true" id="5622ceac-c2bd-4a11-9feb-d6977acfe1ee" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Core/FSM.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Core/FSM/IState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Core/FSM/IState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Core/FSM/StateMachine.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Core/FSM/StateMachine.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/LobbySceneController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/LobbyStateMachine.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/LobbyStateMachine.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/States.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/States/LobbyCharacterSelectState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/States/LobbyCharacterSelectState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/States/LobbyLoginState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/States/LobbyLoginState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/States/LobbyMainState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/States/LobbyMainState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/States/LobbySettingsState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/States/LobbySettingsState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/World.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/World/WorldExplorationState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/World/WorldExplorationState.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/World/WorldSceneController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Base.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Base/OverlayBase.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Base/OverlayBase.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Screens/TownMainScreen.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Screens/TownMainScreen.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Utils/PriorityQueue.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Utils/PriorityQueue.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Entities.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Entities/Enemy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Entities/Enemy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Entities/IInteractable.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Entities/IInteractable.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Entities/Town.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Entities/Town.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Map.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Map/Map.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Map/Map.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/PathFinder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/PathFinder.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Player.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Player/PlayerController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Player/PlayerController.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Player/PlayerMover.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Player/PlayerMover.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MerchantGuildChronicles/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MerchantGuildChronicles/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Resources/Prefabs/Gameplay.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Resources/Prefabs/Gameplay/Map.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Resources/Prefabs/Gameplay/Map.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Resources/Prefabs/Gameplay/Player.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Resources/Prefabs/Gameplay/Player.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Resources/UI/Screen/CharacterSelectScreen.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Resources/UI/Screen/CharacterSelectScreen.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Resources/UI/Screen/LoadingScreen.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Resources/UI/Screen/LoadingScreen.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scenes/World.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scenes/World.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/BootStrap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/BootStrap.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/BootStrap.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/BootStrap.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Core/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Player/PlayerMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Core/PlayerMovement.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/Player/PlayerMovement.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Enemy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Enemy.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Enums/Enums.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Enums/Enums.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/HideTilemap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/HideTilemap.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/HideTilemap.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/World/HideTilemap.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Managers/ResourceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Managers/ResourceManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Managers/SceneManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Managers/SceneManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Managers/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Managers/UIManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/LobbySceneController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/LobbySceneController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/Lobby/LobbySceneController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/WorldSceneController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/WorldSceneController.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/Scenes/World/WorldSceneController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Overlay/LobbyOverlay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Overlay/LobbyOverlay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/PopupBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Base/PopupBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/PopupBase.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Base/PopupBase.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Popups/LobbySettingsPopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Popups/LobbySettingsPopup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/ScreenBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Base/ScreenBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/ScreenBase.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Base/ScreenBase.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Screens/CharacterSettingScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Screens/CharacterSettingScreen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Screens/LoadingScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Screens/LoadingScreen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Screens/LobbyMainScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Screens/LobbyMainScreen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Screens/LoginScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Screens/LoginScreen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/UIBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Base/UIBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/UIBase.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MGC/Scripts/UI/Base/UIBase.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.muse.common/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.muse.common/Settings.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +116,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -95,7 +182,8 @@
       <workItem from="1742623631951" duration="14201000" />
       <workItem from="1742717552093" duration="805000" />
       <workItem from="1743592924113" duration="18000" />
-      <workItem from="1743592960731" duration="12935000" />
+      <workItem from="1743592960731" duration="14609000" />
+      <workItem from="1743679349474" duration="9250000" />
     </task>
     <servers />
   </component>

@@ -19,31 +19,30 @@ public class SceneManager : SingletonMono<SceneManager>
     // 비동기 씬 로딩 코루틴
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        if (string.IsNullOrEmpty(sceneName))
-        {
-            Debug.LogError("LoadSceneAsync: sceneName is null or empty.");
-            yield break;
-        }
-        
-        // 1. 필요하면 로딩 UI 표시
-        // UIManager.Instance.OpenScreen<LoadingUI>();  // 가상의 LoadingUI
+        // 1. 로딩 화면 열기
+        var loadingScreen = UIManager.Instance.OpenScreen<LoadingScreen>();
 
         // 2. 씬 로딩 시작
         AsyncOperation op = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
-        // 페이드아웃 연출 등 추가할 경우, op.allowSceneActivation을 false로 관리할 수 있음.
-        op.allowSceneActivation = true;
+        op.allowSceneActivation = false;
 
-        // 3. 로딩 진행률 확인 (예: 진행 바 업데이트)
-        while (!op.isDone)
+        while (op.progress < 0.9f)
         {
-            float progress = Mathf.Clamp01(op.progress / 0.9f);
-            // UIManager.Instance.loadingUI.SetProgress(progress);
+            loadingScreen.SetProgress(op.progress / 0.9f);
             yield return null;
         }
 
-        // 4. 새 씬 활성화 완료됨
+        // 3. 로딩 완료 처리
+        loadingScreen.SetProgress(1f);
+        yield return new WaitForSeconds(0.3f); // 짧은 대기
+
+        op.allowSceneActivation = true;
+        yield return new WaitUntil(() => op.isDone);
+
+        // 4. 씬 변경 후 처리
         OnSceneChanged(sceneName);
     }
+
     
     // 새 씬 진입 후 처리 (필요 시 UI 세팅 등을 수행)
     private void OnSceneChanged(string sceneName)

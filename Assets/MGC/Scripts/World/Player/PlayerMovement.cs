@@ -4,31 +4,49 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PathFindingPlayer : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public Tilemap walkableTilemap; // 이동 가능한 타일맵
     public Tilemap unwalkableTilemap; // 이동 불가능한 타일맵
-    public float moveSpeed = 5f;  // 플레이어 이동 속도
+    public float moveSpeed = 5f; // 플레이어 이동 속도
     public float nextWaypointDistance = 0.1f; // 다음 경유지 도착 인정 거리
 
-    private Vector2Int currentTile;  // 현재 타일의 좌표
-    private List<Vector2Int> path = new List<Vector2Int>();  // 경로 리스트
-    private int currentPathIndex = 0;  // 경로 리스트에서 이동할 위치
+    [SerializeField] private float interactionRange = 0.7f;
+    [SerializeField] private float maxSearchDistance = 20f;
+
+    private Vector2Int currentTile; // 현재 타일의 좌표
+    private List<Vector2Int> path = new(); // 경로 리스트
+    private int currentPathIndex = 0; // 경로 리스트에서 이동할 위치
     private Coroutine moveCoroutine; // 이동 코루틴
+    private Transform target;
+    private IInteractable currentInteractionTarget;
 
-    void Start()
+    private void Update()
     {
-    }
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))  // 마우스 클릭 시
+        if (Input.GetMouseButtonDown(0))
         {
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2Int targetTile = (Vector2Int)walkableTilemap.WorldToCell(worldPosition);
+            Vector3Int cellPosition = walkableTilemap.WorldToCell(worldPosition);
+            Vector2Int targetTile = (Vector2Int)cellPosition;
             currentTile = (Vector2Int)walkableTilemap.WorldToCell(transform.position);
 
-            // 새로운 목표 지점이 클릭되면 기존 이동 중단
+            // 클릭한 위치에 Interactable 오브젝트가 있는지 확인
+            Collider2D hit = Physics2D.OverlapPoint(worldPosition);
+            currentInteractionTarget = null;
+
+            if (hit != null)
+            {
+                var interactable = hit.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    currentInteractionTarget = interactable;
+                    currentInteractionTarget.OnSelect();
+                    // 목표 타일을 해당 오브젝트 위치로 덮어쓰기 (정확한 타일로 이동)
+                    targetTile = (Vector2Int)walkableTilemap.WorldToCell(hit.transform.position);
+                }
+            }
+
+            // 이동 중이면 중단
             if (moveCoroutine != null)
             {
                 StopCoroutine(moveCoroutine);
@@ -37,6 +55,7 @@ public class PathFindingPlayer : MonoBehaviour
             // 새로운 경로 계산 및 이동 시작
             path = FindPathOptimized(currentTile, targetTile);
             currentPathIndex = 0;
+
             if (path.Count > 0)
             {
                 moveCoroutine = StartCoroutine(MoveAlongPathCoroutine());
@@ -44,20 +63,40 @@ public class PathFindingPlayer : MonoBehaviour
         }
     }
 
-    IEnumerator MoveAlongPathCoroutine()
+    private IEnumerator MoveAlongPathCoroutine()
     {
         while (currentPathIndex < path.Count)
         {
             Vector3 targetPosition = walkableTilemap.GetCellCenterWorld((Vector3Int)path[currentPathIndex]);
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
+            // 타겟 오브젝트가 있다면 일정 거리 이내 도착 체크
+            if (currentInteractionTarget != null)
+            {
+                float distanceToTarget = Vector3.Distance(transform.position,
+                    ((MonoBehaviour)currentInteractionTarget).transform.position);
+                if (distanceToTarget < interactionRange)
+                {
+                    break; // 경로 중단 → 상호작용
+                }
+            }
+
             if (Vector3.Distance(transform.position, targetPosition) < nextWaypointDistance)
             {
                 currentPathIndex++;
             }
+
             yield return null;
         }
-        moveCoroutine = null; // 이동 완료
+
+        // 도착 시 상호작용
+        if (currentInteractionTarget != null)
+        {
+            currentInteractionTarget.Interact();
+            currentInteractionTarget = null;
+        }
+
+        moveCoroutine = null;
     }
 
     // 최적화된 A* 알고리즘을 사용해 경로 찾기 (대각선 이동 포함)
@@ -69,13 +108,23 @@ public class PathFindingPlayer : MonoBehaviour
         Dictionary<Vector2Int, float> gScore = new Dictionary<Vector2Int, float>();
         Dictionary<Vector2Int, float> fScore = new Dictionary<Vector2Int, float>();
 
+        Vector2Int closestNode = start;
+        float closestDistanceToGoal = GetHeuristicDistance(start, goal);
+
         gScore[start] = 0;
-        fScore[start] = GetHeuristicDistance(start, goal);
+        fScore[start] = closestDistanceToGoal;
         openSet.Enqueue(start, fScore[start]);
 
         while (openSet.Count > 0)
         {
             Vector2Int current = openSet.Dequeue();
+
+            // ✅ 탐색 거리 제한
+            if (gScore[current] > maxSearchDistance)
+            {
+                Debug.Log($"[Pathfinding] 탐색 거리 초과, {closestNode} 까지만 이동");
+                return RetracePath(cameFrom, closestNode);
+            }
 
             if (current == goal)
             {
@@ -86,42 +135,45 @@ public class PathFindingPlayer : MonoBehaviour
 
             foreach (Vector2Int neighbor in GetNeighbors(current))
             {
-                if (closedSet.Contains(neighbor) || !IsWalkable(neighbor))
-                {
-                    continue;
-                }
+                if (closedSet.Contains(neighbor) || !IsWalkable(neighbor)) continue;
 
                 float tentativeGScore = gScore[current] + GetDistance(current, neighbor);
-
                 if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
                 {
                     cameFrom[neighbor] = current;
                     gScore[neighbor] = tentativeGScore;
                     fScore[neighbor] = gScore[neighbor] + GetHeuristicDistance(neighbor, goal);
 
+                    // ✅ 목표와 가장 가까운 점 추적
+                    float distToGoal = GetHeuristicDistance(neighbor, goal);
+                    if (distToGoal < closestDistanceToGoal)
+                    {
+                        closestDistanceToGoal = distToGoal;
+                        closestNode = neighbor;
+                    }
+
                     if (!openSet.Contains(neighbor))
-                    {
                         openSet.Enqueue(neighbor, fScore[neighbor]);
-                    }
                     else
-                    {
-                        openSet.UpdatePriority(neighbor, fScore[neighbor]); // 우선순위 큐 업데이트
-                    }
+                        openSet.UpdatePriority(neighbor, fScore[neighbor]);
                 }
             }
         }
 
-        return new List<Vector2Int>(); // 경로를 찾지 못함
+        // ✅ 목표에 도달하지 못했을 경우: 가장 가까운 지점까지의 경로 반환
+        Debug.Log($"[Pathfinding] 목표 도달 실패. 최단 거리 노드({closestNode})로 이동");
+        return RetracePath(cameFrom, closestNode);
     }
 
+
     // 휴리스틱 거리 계산 (대각선 이동 고려) - 맨하탄 거리 사용 (성능 향상 및 격자 맵에 적합)
-    float GetHeuristicDistance(Vector2Int a, Vector2Int b)
+    private float GetHeuristicDistance(Vector2Int a, Vector2Int b)
     {
         return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
     }
 
     // 실제 이동 비용 계산 (대각선 이동 고려)
-    float GetDistance(Vector2Int a, Vector2Int b)
+    private float GetDistance(Vector2Int a, Vector2Int b)
     {
         int dx = Mathf.Abs(a.x - b.x);
         int dy = Mathf.Abs(a.y - b.y);
@@ -132,13 +184,13 @@ public class PathFindingPlayer : MonoBehaviour
     }
 
     // 타일이 이동 가능한지 확인
-    bool IsWalkable(Vector2Int position)
+    private bool IsWalkable(Vector2Int position)
     {
         return walkableTilemap.HasTile((Vector3Int)position) && !unwalkableTilemap.HasTile((Vector3Int)position);
     }
 
     // 인접한 타일들을 반환 (대각선 이동 포함)
-    List<Vector2Int> GetNeighbors(Vector2Int position)
+    private List<Vector2Int> GetNeighbors(Vector2Int position)
     {
         List<Vector2Int> neighbors = new List<Vector2Int>();
         for (int x = -1; x <= 1; x++)
@@ -154,10 +206,11 @@ public class PathFindingPlayer : MonoBehaviour
                 }
             }
         }
+
         return neighbors;
     }
 
-    List<Vector2Int> RetracePath(Dictionary<Vector2Int, Vector2Int> cameFrom, Vector2Int current)
+    private List<Vector2Int> RetracePath(Dictionary<Vector2Int, Vector2Int> cameFrom, Vector2Int current)
     {
         List<Vector2Int> path = new List<Vector2Int>();
         while (cameFrom.ContainsKey(current))
@@ -165,53 +218,18 @@ public class PathFindingPlayer : MonoBehaviour
             path.Add(current);
             current = cameFrom[current];
         }
+
         path.Reverse();
         return path;
     }
-}
 
-// 우선순위 큐 구현 (A* 알고리즘 성능 향상을 위해 사용)
-public class PriorityQueue<T>
-{
-    private List<KeyValuePair<T, float>> elements = new List<KeyValuePair<T, float>>();
-
-    public int Count
+    public void SetWalkableTilemap(Tilemap walkableTilemap)
     {
-        get { return elements.Count; }
+        this.walkableTilemap = walkableTilemap;
     }
 
-    public void Enqueue(T item, float priority)
+    public void SetUnwalkableTilemap(Tilemap unwalkableTilemap)
     {
-        elements.Add(new KeyValuePair<T, float>(item, priority));
-        elements.Sort((a, b) => a.Value.CompareTo(b.Value)); // 낮은 우선순위가 먼저
-    }
-
-    public T Dequeue()
-    {
-        if (elements.Count == 0)
-        {
-            throw new System.InvalidOperationException("PriorityQueue is empty");
-        }
-        T item = elements[0].Key;
-        elements.RemoveAt(0);
-        return item;
-    }
-
-    public bool Contains(T item)
-    {
-        return elements.Any(element => EqualityComparer<T>.Default.Equals(element.Key, item));
-    }
-
-    public void UpdatePriority(T item, float newPriority)
-    {
-        for (int i = 0; i < elements.Count; i++)
-        {
-            if (EqualityComparer<T>.Default.Equals(elements[i].Key, item))
-            {
-                elements[i] = new KeyValuePair<T, float>(item, newPriority);
-                elements.Sort((a, b) => a.Value.CompareTo(b.Value));
-                return;
-            }
-        }
+        this.unwalkableTilemap = unwalkableTilemap;
     }
 }
